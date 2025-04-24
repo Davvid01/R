@@ -1,0 +1,6 @@
+"0","#zad5 wykres słupkowy dla BMI_kat"
+"0","ggplot(waga, aes(x=BMI_kat))+"
+"0","    geom_bar()+"
+"0","    theme_classic()+"
+"0","    labs(x='Kateogria BMI', y='Liczba pacjentów')+"
+"0","  ggtitle('rozkład BMI')"

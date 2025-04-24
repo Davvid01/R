@@ -1,0 +1,23 @@
+"0","waga %>%"
+"0","  group_by(BMI_kat) %>%"
+"0","  summarise("
+"0","    sr = round(mean(CRP, na.rm = TRUE), 2),"
+"0","    Sx = round(mean(CRP, na.rm = TRUE), 2),  # This is currently a duplicate of `sr`"
+"0","    Q2 = round(median(CRP, na.rm = TRUE), 2)"
+"0","  ) %>%"
+"0","  xtable()"
+"1","% latex table generated in R 4.4.1 by xtable 1.8-4 package
+% Wed Apr 23 16:17:47 2025
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlrrr}
+  \hline
+ & BMI\_kat & sr & Sx & Q2 \\ 
+  \hline
+1 & nadwaga & 2.81 & 2.81 & 2.50 \\ 
+  2 & normalna & 0.73 & 0.73 & 0.65 \\ 
+  3 & otyłość & 9.30 & 9.30 & 8.27 \\ 
+   \hline
+\end{tabular}
+\end{table}
+"

@@ -1,0 +1,2 @@
+"0","dane <- read_xlsx('dane/gospodarstwa.xlsx', sheet=1)"
+"0","print(dane)"

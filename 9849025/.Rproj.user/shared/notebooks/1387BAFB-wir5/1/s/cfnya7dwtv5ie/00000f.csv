@@ -1,0 +1,9 @@
+"0","#Wykres dla liczby urodzeń w gminach aglomeracji poznańskiej "
+"0",""
+"0","gminy <- read_xlsx('dane/LUDN_3428_XTAB_20250402163701.xlsx', sheet=2) %>% "
+"0",""
+"0","filter(Kod=='3064011' | substr(Kod,1,4)=='3021') %>% "
+"0","  rename(JPT_KOD_JE=1,Gmina=2,wsk_urodzen=3) %>% "
+"0","  mutate(wsk_urodzen=as.numeric(wsk_urodzen))"
+"2","BŁĄD: `path` does not exist: ‘dane/LUDN_3428_XTAB_20250402163701.xlsx’
+"

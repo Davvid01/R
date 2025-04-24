@@ -1,0 +1,104 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+# ładowanie pakietów
+library(readxl)
+```
+
+```{r}
+# wczytywanie danych
+dane <- read_xlsx('dane/gospodarstwa.xlsx', sheet=1)
+zmienne <- read_xlsx('dane/gospodarstwa.xlsx', sheet=2, range='A2:B18')
+etykiety <- read_xlsx('dane/gospodarstwa.xlsx', sheet=3, range='A2:C70')
+```
+
+```{r}
+#KPS3
+#zadanie2
+dane[1,2]  #pierwszy wiersz, druga kolumna tak jak iloc
+dane[1:3,4:6]
+dane[1,] #wiersz 1
+dane[,3] #3 kolumna
+dane$klm ==6
+zadanie2 <-dane[dane$klm ==6,] #potrzebny ',' aby utwrzyc ramke dwuwymairową
+```
+```{r}
+#zadanie3
+zadanie3 <-dane[dane$dochg>2000,] #NA w dochodzie jest
+zadanie3a <- dane[dane$dochg> 2000 & !is.na(dane$dochg),]
+```
+
+```{r}
+#zad4
+zadanie4<-dane[dane$dochg>3000 &dane$woj=='30' & dane$klm==6,] #aby wyswietlilo się w konsoli trzeba przypisac do zmiennej
+```
+
+```{r}
+#zadanie 5
+zadanie5 <-dane[dane$klm==1 &dane$woj=='02' | dane$klm==1 & dane$woj=='14',] #wrocław lub warszawa
+zadanie5c <- dane[dane$klm==1 & dane$woj %in% c('02','14'),] #krótsza wersja
+```
+
+```{r}
+#zadanie 11
+dane[,c(1,2,3,4)]
+dane[,1:4]
+dane[,c('klm','woj','trb','zut')]
+```
+```{r}
+#zadanie14
+dane$roznica <- dane$dochg - dane$wydg
+zadanie14 <- dane[,c('dochg','wydg', 'roznica')]
+```
+```{r}
+#zadanie16
+zadanie16<- dane
+names(zadanie16)[15]<-'dochod'
+names(zadanie16)[16]<-'wydatki' #zmiany nazwy kolumny
+```
+```{r}
+#zadanie17
+table(dane$klm)
+zadanie17 <- table(dane$klm)
+names(zadanie17) <-etykiety$Etykieta[1:6]
+print(zadanie17)
+```
+```{r}
+#zadanie19
+table(dane$woj,dane$d61) #tworzę tabelę wiersze, kolumny
+```
+```{r}
+#zadanie 20
+summary(dane$wydg)
+mean(dane$wydg, na.rm=TRUE)
+```
+```{r}
+#zadanie23
+by(dane$wydg,dane$klm,mean, na.rm=TRUE) #by sluzy do przetwarzania w grupach
+by(dane$wydg,dane$klm, summary)
+```
+```{r}
+#zadanie24
+barplot(table(dane$klm), #f.table grupuje - zlicza liczbę wystąpień
+        xlab='Klasa miejscowosci',
+        ylab='Liczba gospodarstw',
+        col= 'red',
+        main='Rozklad gosp. ze wzgledu na klase')
+```
+```{r}
+#zadanie 25
+dane[order(dane$wydg),] #aby nadpisac dane na oryginał trzeba przypisac do dane <-
+```
+```{r}
+dane[order(-dane$dochg),]
+```
+```{r}
+#zadanie32
+dane$klasa <- ifelse(dane$klm==6, 'Wies','Miasto')
+```
+```{r}
+
+```
+

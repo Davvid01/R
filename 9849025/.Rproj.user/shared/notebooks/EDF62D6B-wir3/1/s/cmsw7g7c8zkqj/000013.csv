@@ -1,0 +1,6 @@
+"0","#zadnie 32"
+"0","dane %>% mutate(klasa=if_else(klm==6, 'Wieś','Miasto'),"
+"0","                klasa1=case_when("
+"0","                  klm==6 ~'Wieś',"
+"0","                  TRUE~ 'Miasto'"
+"0","                ))"

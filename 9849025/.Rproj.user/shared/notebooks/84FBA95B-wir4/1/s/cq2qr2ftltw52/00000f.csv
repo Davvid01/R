@@ -1,0 +1,7 @@
+"0","#zad 3 wykres rozrzuutu miedzy adiponektyna a BMI"
+"0","ggplot(waga, aes(x=BMI, y=Adiponektyna))+"
+"0","         labs(x='Body Mass Index', y='Adiponektyna')+"
+"0","        geom_point(pch=21, fill='blue', col='black',size=3)+"
+"0","          ggtitle('zaleznosc miedzy BMI a adiponektyna')+"
+"0","        stat_cor(method='pearson', "
+"0","                 label.x=35,label.y=30)"

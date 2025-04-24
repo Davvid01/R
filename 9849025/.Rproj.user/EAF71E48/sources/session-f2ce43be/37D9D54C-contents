@@ -1,0 +1,110 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+
+```
+
+---
+///
+```{r}
+2+2*3
+(sin(45))^2+(cos(45))^2
+pi
+#Pi  wrazliwy  na wielkosc liter
+exp(1)
+sqrt(4)
+#ctrl shft enter - uruchamia całosc
+```
+```{r}
+#ctrl+alt +i
+```
+```{r}
+#zadanie3
+seq(2,100,2)
+seq(to=100, from=2, by=4)
+```
+```{r}
+#zadanie4
+seq(99,47,-4)
+```
+```{r}
+#zadanie5
+c('January','February') #1 sposob
+month.name
+```
+```{r}
+#zadanie6
+letters
+LETTERS
+```
+#ZADANIE8
+```{r}
+month.name
+month.name[1]
+month.name[1:3]
+month.name[c(1,2,3)] #wektor
+month.name[c(1,12)]
+month.name[-1] #bez stycznia
+month.name[-c(1,5)]
+
+```
+```{r}
+month.name[c(4:6,10:12)]
+```
+```{r}
+#warunki
+wzrost <- c(180,170,155,180,200,178,185,167,190) #wektor
+print(wzrost)
+wzrost[2]
+wzrost==170 #waruyunek logiczny
+wzrost[wzrost==170]
+wzrost[wzrost<180]
+
+#wybieramy ,165,179
+wzrost[wzrost>=165 & wzrost <=179]
+wzrost[wzrost==170 | wzrost ==185] #lub
+wzrost[wzrost %in% c(170,185)]
+wzrost[wzrost!=170]
+```
+```{r}
+#zadanie16
+c(1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3)
+rep(1:3,5) #co, ile razy
+
+```
+```{r}
+#zadanie19
+rep(c(1:9),c(1:9))
+```
+```{r}
+#zadanie11
+wiek <- c(25, 35, 43, 28, 47, 77, 55, 66, 25, 25)
+print(wiek)
+mean(wiek) 
+min(wiek)
+max(wiek)
+sd(wiek) #standard deviation odchylenie
+quantile(wiek)[4]   #kwartyl 3
+quantile(wiek)[4]   #kwartyl 1
+sum(wiek)
+length(wiek)
+quantile(wiek, probs = seq(0.25,0.75,0.25)) #tylko kwartyle
+quantile(wiek, probs = seq(0.1,0.9,0.1)) #tylko decyle
+quantile(wiek, probs = seq(0.01,0.99,0.01)) #tylko centyle
+```
+
+```{r}
+#zad22
+x <- c(NA, 3, 14, NA, 33, 17, NA, 41)
+print(x)
+mean(x, na.rm=TRUE) #zwraca NA jesli znajduja się przynajmniej 1 NA w zbiorze domyślnie bez na.rm
+sd(x, na.rm=TRUE) #opis - zaznacznie funkcji + F1
+summary(x)
+
+# is.na do pracy na brakach danych
+is.na(x)
+sum(is.na(x))
+```
+

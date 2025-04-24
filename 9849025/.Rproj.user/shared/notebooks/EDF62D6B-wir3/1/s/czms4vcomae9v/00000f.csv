@@ -1,0 +1,4 @@
+"0","#zadanie2"
+"0","#zadanie2 <- dane[dane$klm==6,]"
+"0","zad2<-dane %>% filter(klm==6) #pipe ctrl shift M  #chcemy wykorzystać potokowe"
+"0",""

@@ -1,0 +1,37 @@
+"0","library(readxl) #do xlslx"
+"0","library(dplyr)#do przetwarzsania dnaych"
+"2","
+Dołączanie pakietu: ‘dplyr’
+
+"
+"2","Następujące obiekty zostały zakryte z ‘package:stats’:
+
+    filter, lag
+
+"
+"2","Następujące obiekty zostały zakryte z ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+"
+"0","library(tmap) #do tworzenia map"
+"2","Ostrzeżenie: pakiet ‘tmap’ został zbudowany w wersji R 4.4.3"
+"2","Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     
+"
+"2","Registered S3 method overwritten by 'htmlwidgets':
+  method           from         
+  print.htmlwidget tools:rstudio
+"
+"0","library(tmaptools)  #dodatkowe narzednia"
+"2","Ostrzeżenie: pakiet ‘tmaptools’ został zbudowany w wersji R 4.4.3"
+"0","library(sf)      # do wczytywania plikow shp-przechowuje dane przestrzennne X Y dlugosc szerokosc geograficzna"
+"2","Ostrzeżenie: pakiet ‘sf’ został zbudowany w wersji R 4.4.3"
+"2","Linking to GEOS 3.13.0, GDAL 3.10.1, PROJ 9.5.1; sf_use_s2() is TRUE
+"
+"0","library(rvest)  #do scrapowania"
+"0","library(bdl)    #do laczenia sie z api GUS"
+"2","Ostrzeżenie: pakiet ‘bdl’ został zbudowany w wersji R 4.4.3"
+"0","library(topsis)#do metody Topsis"
+"0","library(ggplot2)"

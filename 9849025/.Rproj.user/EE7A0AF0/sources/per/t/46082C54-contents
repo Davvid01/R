@@ -1,0 +1,207 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+#pakiety
+library(readxl) #do xlslx
+library(dplyr)#do przetwarzsania dnaych
+library(tmap) #do tworzenia map
+library(tmaptools)  #dodatkowe narzednia
+library(sf)      # do wczytywania plikow shp-przechowuje dane przestrzennne X Y dlugosc szerokosc geograficzna
+library(rvest)  #do scrapowania
+library(bdl)    #do laczenia sie z api GUS
+library(topsis)#do metody Topsis
+library(ggplot2)
+```
+```{r}
+dane <- read_xlsx('dane/gospodarstwa.xlsx', sheet=1)
+print(dane)
+```
+```{r}
+#stwórz kartogram dla średniej powierzchni mieszkan przekroju województw
+srednia <- dane %>% 
+  group_by(woj) %>% 
+  summarise(sr=round(mean(d36), 2)) %>% 
+  rename(JPT_KOD_JE=woj)
+```
+```{r}
+woj<- st_read('dane/Wojewodztwa/Wojewodztwa.shp')
+woj_razem <- left_join(woj, srednia) #plik shp musi byc pierwszy aby stworzyc dane
+
+tm_shape(woj_razem)+
+  tm_polygons('sr')+
+  tm_text(text='JPT_NAZWA_', size=0.8)+
+  tm_text(text='sr',ymod=-0.9, size=0.8) #domyslnie ustawia na srodku (wojewosdztwa), trzeba przesunać na osi y
+```
+```{r}
+#kartogram z medianą dochodow
+mediana <- dane %>% 
+  group_by(woj) %>% 
+  summarise(sr=round(median(dochg, na.rm = TRUE), 2)) %>% 
+  rename(JPT_KOD_JE=woj)
+
+
+woj<- st_read('dane/Wojewodztwa/Wojewodztwa.shp')
+woj_razem <- left_join(woj, mediana) #plik shp musi byc pierwszy aby stworzyc dane
+
+tm_shape(woj_razem)+
+  tm_polygons('sr')+
+  tm_text(text='JPT_NAZWA_', size=0.8)+
+  tm_text(text='sr',ymod=-0.9, size=0.8)
+```
+```{r}
+#stwórz kartogram dla przecietnej placy brutto
+placa <- read_xlsx('Dane/WYNA_2497_XTAB_20250326165450.xlsx', sheet=2) %>%
+  slice(3:18) %>%
+  mutate(JPT_KOD_JE=substr(Kod,1,2)) %>%
+  select(JPT_KOD_JE, ogółem) %>%
+  rename(Płaca=ogółem) %>%
+  mutate(Płaca=as.numeric(Płaca))
+```
+```{r}
+woj_razem <- left_join(woj, placa) #plik shp musi byc pierwszy aby stworzyc dane
+
+tm_shape(woj_razem)+
+  tm_polygons('Płaca')+
+  tm_text(text='JPT_NAZWA_', size=0.8)+
+  tm_text(text='Płaca',ymod=-0.9, size=0.8)
+```
+```{r}
+
+# ZAJECIA KOPENHAGA
+
+#kartogram dla gęstości zaludnienia w przekroju województw
+url <- "https://pl.wikipedia.org/wiki/Wojew%C3%B3dztwo"
+page <- read_html(url)
+
+tabela <-      page %>% 
+      html_table() %>%
+      .[[1]] %>% 
+        rename(JPT_KOD_JE=1,Wojewodztwo=2,Stolica=3,
+               Powierzchnia=4,Ludnosc=5,Gestosc=6,Urbanizacja=7,
+               Stopa=8,PKB_CAP=9,Tablica=10) %>% 
+        mutate(JPT_KOD_JE=substr(JPT_KOD_JE,1,2),
+         Gestosc=as.numeric(str_replace(Gestosc, ',', '.')))
+
+woj <- st_read("dane/Wojewodztwa/Wojewodztwa.shp") 
+woj_razem <- left_join(woj,tabela)  
+tm_shape(woj_razem)+
+  tm_polygons('Gestosc')+
+  tm_text(text="JPT_NAZWA_", size = 0.8)+
+  tm_text(text='Gestosc', ymod= 0.9, size= 0.8)
+```
+```{r}
+#Powiaty w wlkp - wynagrodzenia
+KOD_WOJ <- 14
+powiaty <- read_xlsx('dane/WYNA_2497_XTAB_20250326165450.xlsx', sheet=2) %>% 
+  filter(substr(Kod,1,2)=='14') %>% 
+  mutate(JPT_KOD_JE=substr(Kod,1,4),
+         placa=as.numeric(ogółem)) %>% 
+  select(JPT_KOD_JE,placa)
+
+pow <- st_read('dane/powiaty.shp') %>% 
+  filter(substr(JPT_KOD_JE,1,2)=='14')
+
+pow_razem <- left_join(pow,powiaty)
+
+tm_shape(pow_razem) + 
+  tm_polygons('placa')
+```
+```{r}
+#Wykres dla liczby urodzeń w gminach aglomeracji poznańskiej 
+
+gminy <- read_xlsx('dane/LUDN_3428_XTAB_20250402163701.xlsx', sheet=2) %>% 
+
+filter(Kod=='3064011' | substr(Kod,1,4)=='3021') %>% 
+  rename(JPT_KOD_JE=1,Gmina=2,wsk_urodzen=3) %>% 
+  mutate(wsk_urodzen=as.numeric(wsk_urodzen))
+
+gminy_agl <- st_read('dane/gminy.shp') %>% 
+  filter(JPT_KOD_JE=='3064011' | substr(JPT_KOD_JE,1,4)=='3021')
+
+gminy_razem <- left_join(gminy_agl,gminy)
+
+tm_shape(gminy_razem)+ #ZMIEN NAZWY
+
+  tm_polygons('Gestosc')+
+  tm_text(text="JPT_NAZWA_", size = 0.8)+
+  tm_text(text='Gestosc', ymod= 0.9, size= 0.8)
+```
+```{r}
+#stwórz kartogram dla zmiennej cp (inflacja)
+
+```
+```{r}
+#klucz GUS API
+#97572e13-13b4-482b-5980-08dd7ca741fc aby korzsytac w R z banku danych lokalnych
+options(bdl.api_private_key='97572e13-13b4-482b-5980-08dd7ca741fc')
+```
+```{r}
+search_subjects('inflacja') #wyszukje wszystko co jest związane 
+get_variables('P2955') #zmienne z GUS bank danych https://bdl.stat.gov.pl/bdl/dane/podgrup/tablica
+cpi<-get_data_by_variable(varId = '217232', year='2024', unitLevel = 2)%>%
+
+mutate(JPT_KOD_JE=substr(id,3,4)) %>%#tworze zmienną
+select(JPT_KOD_JE,val) %>%#tworze pipe
+  rename(CPI=val)
+
+woj <- st_read('dane/Wojewodztwa/Wojewodztwa.shp')
+razem <- left_join(woj,cpi)
+
+tm_shape(razem) + tm_polygons('CPI')+tm_text(text='JPT_NAZWA_',size=0.8)+
+  tm_text(text='CPI',size=0.8, ymod=-0.9)
+```
+```{r}
+search_subjects('Stopa bezrobocia')
+get_variables('P2392')
+
+stopa <-get_data_by_variable(varId = '60270', year='2024', unitLevel = 2)%>%
+
+mutate(JPT_KOD_JE=substr(id,3,4)) %>%#tworze zmienną
+select(JPT_KOD_JE,val) %>%#tworze pipe
+  rename(Stopa=val)
+
+woj <- st_read('dane/Wojewodztwa/Wojewodztwa.shp')
+razem <- left_join(woj,stopa)
+
+tm_shape(razem) + tm_polygons('Stopa')+tm_text(text='JPT_NAZWA_',size=0.8)+
+  tm_text(text='Stopa',size=0.8, ymod=-0.9)
+```
+```{r}
+#dla dowolnego wojewodztwa stworz kartogram  z sytuacja zdrowotną - Topsis
+zdrowie <- read_xlsx('dane/Dane.xlsx',sheet=1)
+zmienne<- read_xlsx('dane/Dane.xlsx', sheet=2)
+#wybór wojewodztwa
+kod<- '30'
+#Dane dla wojewodztwa
+woj <-zdrowie %>% filter(substr(JPT_KOD_JE,1,2)==kod) %>%
+#destymulanta stopa  bezrobocia - czym nizsza tym lepsza, czym wyzsze tym gorsza, cena czym nizsza tym lepsza, stymulanta:czym wyzsza tym lepsza
+select(X1:X8) %>% #ograniczam do kolumn X1 X8
+  as.matrix()
+#nadanie stymulanty lub destymulanty
+var <- c('+', '+','-','-','-','+','-','-') 
+#tworzymy wektor wag
+w<-c(1,1,1,1,1,1,1,1)
+#tworzymy ranking
+zdrowie_woj$R <- zdrowie %>% #DF wybranego wojewodztwa ; tworze zmienna R która bedzie przyłączona do zbioru zdrowie
+  filter(substr(JPT_KOD_JE,1,2)==kod)
+zdrowie_woj$R<-round(topsis(woj,w,var)[,2],2)
+
+#Wykres dla R
+zdrowie_woj %>% arrange(R)%>% #sortuje R
+  ggplot(aes(x=factor(Powiat,levels=Powiat),y=R))+
+  geom_point()+
+  coord_flip()+
+  theme_bw()
+#Kartogram
+pow<-st_read('dane/Wojewodztwa/Wojewodztwa.shp')%>%
+  filter(substr(JPT_KOD_JE,1,2)==kod)
+
+razem <- left_join(pow,zdrowie_woj)
+tm_shape(razem)+
+  tm_polygons('R')+
+  tm_text(text='R', size=0.8)
+
+```
+

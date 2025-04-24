@@ -1,0 +1,4 @@
+"0","#zadanie7"
+"0","set.seed(100) #określa typ algorytmu do losowanie - z ziarnem 100 kazdy dostanie tę samą losową probe "
+"0","zad7 <- dane %>% slice_sample(n=100, replace=TRUE)"
+"0","print(zad7)"

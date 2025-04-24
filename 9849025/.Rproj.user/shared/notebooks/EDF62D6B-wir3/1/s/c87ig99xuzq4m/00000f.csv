@@ -1,0 +1,5 @@
+"0","# wczytywanie danych"
+"0","dane <- read_xlsx('dane/gospodarstwa.xlsx', sheet=1)"
+"0","zmienne <- read_xlsx('dane/gospodarstwa.xlsx', sheet=2, range='A2:B18')"
+"0","etykiety <- read_xlsx('dane/gospodarstwa.xlsx', sheet=3, range='A2:C70')"
+"2","New names:"

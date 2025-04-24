@@ -1,0 +1,5 @@
+"0","#stwórz kartogram dla średniej powierzchni mieszkan przekroju województw"
+"0","srednia <- dane %>% "
+"0","  group_by(woj) %>% "
+"0","  summarise(sr=round(mean(d36), 2)) %>% "
+"0","  rename(JPT_KOD_JE=woj)"

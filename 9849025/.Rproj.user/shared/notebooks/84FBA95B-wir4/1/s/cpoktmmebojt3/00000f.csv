@@ -1,0 +1,7 @@
+"0","#jak zadanie 2 w ramach nadciśnienia"
+"0","ggplot(waga, aes(x=BMI, y=CRP))+ #program warstwowy więc dodajemy warstwy za pomocą +"
+"0","  geom_point(pch=21, fill='blue', col='black',size=3)+ #pch - point chart shapes"
+"0","  labs(x='Body Mass Index', y='Białko C reaktywne')+"
+"0","  theme_bw()+"
+"0","  ggtitle('zaleznosc miedzy BMI a CRP')+"
+"0","  facet_wrap(~Nadcisnienie)"

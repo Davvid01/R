@@ -1,0 +1,2 @@
+"0","#zadanie13"
+"0","dane %>% select (starts_with('d'))"

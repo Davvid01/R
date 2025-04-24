@@ -1,0 +1,8 @@
+"0","#zad4 jak zad3 w ramach BMI kat i Nadcisnienia"
+"0","ggplot(waga, aes(x=BMI, y=Adiponektyna))+"
+"0","         labs(x='Body Mass Index', y='Adiponektyna')+"
+"0","        geom_point(pch=21, fill='blue', col='black',size=3)+"
+"0","          ggtitle('zaleznosc miedzy BMI a adiponektyna')+"
+"0","        stat_cor(method='pearson', "
+"0","                 label.x=30,label.y=30, size=3)+"
+"0","        facet_grid(BMI_kat~Nadcisnienie) #grupuje kategorie w tabele"

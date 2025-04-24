@@ -1,0 +1,17 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(readxl) #do xlslx
+library(dplyr)#do przetwarzsania dnaych
+library(tmap) #do tworzenia map
+library(tmaptools)  #dodatkowe narzednia
+library(sf)      # do wczytywania plikow shp-przechowuje dane przestrzennne X Y dlugosc szerokosc geograficzna
+library(rvest)  #do scrapowania
+library(bdl)    #do laczenia sie z api GUS
+library(topsis)#do metody Topsis
+library(ggplot2)
+```
+

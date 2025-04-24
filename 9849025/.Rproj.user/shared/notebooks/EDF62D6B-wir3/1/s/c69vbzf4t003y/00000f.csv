@@ -1,0 +1,3 @@
+"0","#zadanie14"
+"0","dane %>% mutate(roznica=dochg-wydg) %>% "
+"0","  select(roznica, dochg, wydg)"

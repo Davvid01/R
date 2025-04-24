@@ -1,0 +1,7 @@
+"0","#stwórz kartogram dla przecietnej placy brutto"
+"0","placa <- read_xlsx('Dane/WYNA_2497_XTAB_20250326165450.xlsx', sheet=2) %>%"
+"0","  slice(3:18) %>%"
+"0","  mutate(JPT_KOD_JE=substr(Kod,1,2)) %>%"
+"0","  select(JPT_KOD_JE, ogółem) %>%"
+"0","  rename(Płaca=ogółem) %>%"
+"0","  mutate(Płaca=as.numeric(Płaca))"

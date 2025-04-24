@@ -1,0 +1,4 @@
+"0","#wczytanie danych C:/Dawid/Szkola/studia/ostatni_rozdzial/Githu/R/9849025/dane/waga.xlsx"
+"0","waga <- read_xlsx('dane/waga.xlsx', sheet=1) %>%"
+"0","  rename(Adiponektyna=2) #2 kolumna"
+"0","zmienne <- read_xlsx('dane/waga.xlsx', sheet=2)"

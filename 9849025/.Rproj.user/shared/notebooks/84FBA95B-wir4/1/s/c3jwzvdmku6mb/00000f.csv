@@ -1,0 +1,7 @@
+"0","#zad 8 slupkowy nadcisnienie tylko dla tych co mają CRP <5,12>"
+"0","ggplot(waga %>%filter(between(CRP,5,12)), aes(x=Nadcisnienie))+"
+"0","    geom_bar()+"
+"0","    theme_classic()+"
+"0","    labs(x='Nadcisnienie', y='Liczba pacjentów')+"
+"0","  ggtitle('rozkład nadcisnienie')+"
+"0","  geom_text(stat = 'count', aes(label =..count..), vjust=0.5) #dodanie liczby obserwacji"

@@ -1,0 +1,6 @@
+"0","woj_razem <- left_join(woj, placa) #plik shp musi byc pierwszy aby stworzyc dane"
+"2","Joining with `by = join_by(JPT_KOD_JE)`"
+"0","tm_shape(woj_razem)+"
+"0","  tm_polygons('Płaca')+"
+"0","  tm_text(text='JPT_NAZWA_', size=0.8)+"
+"0","  tm_text(text='Płaca',ymod=-0.9, size=0.8)"

@@ -1,0 +1,6 @@
+"0","#zad10 stwórz boxplot dla zmiennej CRP w ramach kategorii BMI"
+"0","#Dodaj linię y=10"
+"0","ggplot(waga, aes(x=BMI_kat, y=CRP))+ geom_boxplot(col='blue')+labs(x='Kategorie BMI', y='Bialko C-reaktywne')+"
+"0","  ggtitle('ROzklad CRP wzgledem kategroii')+theme_bw()+"
+"0","  geom_hline(yintercept = 10, col='red')"
+"0",""

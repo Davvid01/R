@@ -1,0 +1,12 @@
+"0","#Powiaty w wlkp - wynagrodzenia"
+"0","KOD_WOJ <- 14"
+"0","powiaty <- read_xlsx('dane/WYNA_2497_XTAB_20250326165450.xlsx', sheet=2) %>% "
+"0","  filter(substr(Kod,1,2)=='14') %>% "
+"0","  mutate(JPT_KOD_JE=substr(Kod,1,4),"
+"0","         placa=as.numeric(ogółem)) %>% "
+"0","  select(JPT_KOD_JE,placa)"
+"0",""
+"0","pow <- st_read('dane/powiaty.shp') %>% "
+"0","  filter(substr(JPT_KOD_JE,1,2)=='14')"
+"2","BŁĄD: Cannot open ""dane/powiaty.shp""; The file doesn't seem to exist.
+"

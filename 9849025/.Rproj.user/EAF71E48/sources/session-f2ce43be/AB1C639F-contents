@@ -1,0 +1,112 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+# ładowanie pakietów
+library(readxl)
+library(dplyr)
+library(xtable)
+library(writexl)
+```
+
+```{r}
+# wczytywanie danych
+dane <- read_xlsx('dane/gospodarstwa.xlsx', sheet=1)
+zmienne <- read_xlsx('dane/gospodarstwa.xlsx', sheet=2, range='A2:B18')
+etykiety <- read_xlsx('dane/gospodarstwa.xlsx', sheet=3, range='A2:C70')
+
+```
+```{r}
+#zadanie2
+#zadanie2 <- dane[dane$klm==6,]
+zad2<-dane %>% filter(klm==6) #pipe ctrl shift M  #chcemy wykorzystać potokowe
+
+```
+```{r}
+#zadanie 3 KPS3
+zad3<- dane %>%  filter(dochg>2000)
+#zadanie4
+zad4 <- dane %>% filter(woj== '30' & klm==6 & dochg>3000)
+```
+```{r}
+
+```
+
+```{r}
+#zadanie8
+ dane %>%  slice(10:15)
+
+```
+```{r}
+#zadanie6
+set.seed(100)
+zad6 <- dane %>% slice_sample(prop=0.3, replace=FALSE)
+```
+```{r}
+#zadanie7
+set.seed(100) #określa typ algorytmu do losowanie - z ziarnem 100 kazdy dostanie tę samą losową probe 
+zad7 <- dane %>% slice_sample(n=100, replace=TRUE)
+print(zad7)
+```
+```{r}
+# zasymuluj losowanie w Totolotku
+liczby<-as.data.frame(1:49) %>%  slice_sample(n=6, replace=FALSE)
+print(liczby)
+```
+```{r}
+#zadanie9
+zad9a <- dane[dane$woj== '30',c('woj','wydg')]
+zad9b <-dane %>%  filter(woj == '30') %>% select(woj,wydg)
+identical(zad9a, zad9b)
+dane %>%  filter(woj == '30')
+```
+```{r}
+#zadanie11
+dane %>% select(klm:zut) #po nazwach
+dane %>% select(klm, woj, trb, zut)
+zad11c <- dane %>% select(1:4) #po pozycjach
+```
+```{r}
+#zadanie13
+dane %>% select (starts_with('d'))
+```
+```{r}
+#zadanie14
+dane %>% mutate(roznica=dochg-wydg) %>% 
+  select(roznica, dochg, wydg)
+```
+```{r}
+#zadanie16
+dane %>% rename(dochod=dochg, wydatki=wydg)
+```
+```{r}
+#zadanie17
+# table(dane$klm) klasycznie
+dane %>% count(klm) %>% xtable() #jako kod LaTeX
+dane %>% count(klm) %>% write_xlsx('zad17.xlsx')
+dane %>% group_by(klm) %>%  count()
+```
+```{r}
+#zadanie25
+dane %>% arrange(wydg)
+```
+
+```{r}
+#zadanie26
+dane %>% arrange(desc(dochg))
+```
+```{r}
+#zadanie27
+dane %>% arrange()
+```
+```{r}
+#zadnie 32
+dane %>% mutate(klasa=if_else(klm==6, 'Wieś','Miasto'),
+                klasa1=case_when(
+                  klm==6 ~'Wieś',
+                  TRUE~ 'Miasto'
+                ))
+                ))
+```
+

@@ -1,0 +1,23 @@
+"0","#zadanie17"
+"0","# table(dane$klm) klasycznie"
+"0","dane %>% count(klm) %>% xtable() #jako kod LaTeX"
+"1","% latex table generated in R 4.4.1 by xtable 1.8-4 package
+% Wed Mar 19 13:42:12 2025
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrr}
+  \hline
+ & klm & n \\ 
+  \hline
+1 & 1.00 & 4585 \\ 
+  2 & 2.00 & 3742 \\ 
+  3 & 3.00 & 2965 \\ 
+  4 & 4.00 & 6320 \\ 
+  5 & 5.00 & 4233 \\ 
+  6 & 6.00 & 10642 \\ 
+   \hline
+\end{tabular}
+\end{table}
+"
+"0","dane %>% count(klm) %>% write_xlsx('zad17.xlsx')"
+"0","dane %>% group_by(klm) %>%  count()"

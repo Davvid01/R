@@ -1,0 +1,169 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+# ładowanie pakietów ctrl alt i
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(ggthemes)
+library(ggcorrplot)
+library(xtable)
+```
+
+
+
+```{r}
+#wczytanie danych C:/Dawid/Szkola/studia/ostatni_rozdzial/Githu/R/9849025/dane/waga.xlsx
+waga <- read_xlsx('dane/waga.xlsx', sheet=1) %>%
+  rename(Adiponektyna=2) #2 kolumna
+zmienne <- read_xlsx('dane/waga.xlsx', sheet=2)
+```
+```{r}
+#zad1 stwórz wykres rozryztu miedzy BMI a CRP
+ggplot(waga, aes(x=BMI, y=CRP))+ #program warstwowy więc dodajemy warstwy za pomocą +
+  geom_point(pch=21, fill='blue', col='black',size=3)+ #pch - point chart shapes
+  labs(x='Body Mass Index', y='Białko C reaktywne')+
+  theme_bw()+
+  ggtitle('zaleznosc miedzy BMI a CRP')
+```
+```{r}
+#jak zadanie 2 w ramach nadciśnienia
+ggplot(waga, aes(x=BMI, y=CRP))+ #program warstwowy więc dodajemy warstwy za pomocą +
+  geom_point(pch=21, fill='blue', col='black',size=3)+ #pch - point chart shapes
+  labs(x='Body Mass Index', y='Białko C reaktywne')+
+  theme_bw()+
+  ggtitle('zaleznosc miedzy BMI a CRP')+
+  facet_wrap(~Nadcisnienie)
+```
+```{r}
+#zad 3 wykres rozrzuutu miedzy adiponektyna a BMI
+ggplot(waga, aes(x=BMI, y=Adiponektyna))+
+         labs(x='Body Mass Index', y='Adiponektyna')+
+        geom_point(pch=21, fill='blue', col='black',size=3)+
+          ggtitle('zaleznosc miedzy BMI a adiponektyna')+
+        stat_cor(method='pearson', 
+                 label.x=35,label.y=30)
+```
+```{r}
+#zad4 jak zad3 w ramach BMI kat i Nadcisnienia
+ggplot(waga, aes(x=BMI, y=Adiponektyna))+
+         labs(x='Body Mass Index', y='Adiponektyna')+
+        geom_point(pch=21, fill='blue', col='black',size=3)+
+          ggtitle('zaleznosc miedzy BMI a adiponektyna')+
+        stat_cor(method='pearson', 
+                 label.x=30,label.y=30, size=3)+
+        facet_wrap(BMI_kat~Nadcisnienie)
+```
+```{r}
+#zad4 jak zad3 w ramach BMI kat i Nadcisnienia
+ggplot(waga, aes(x=BMI, y=Adiponektyna))+
+         labs(x='Body Mass Index', y='Adiponektyna')+
+        geom_point(pch=21, fill='blue', col='black',size=3)+
+          ggtitle('zaleznosc miedzy BMI a adiponektyna')+
+        stat_cor(method='pearson', 
+                 label.x=30,label.y=30, size=3)+
+        facet_grid(BMI_kat~Nadcisnienie) #grupuje kategorie w tabele
+```
+```{r}
+#zad5 wykres słupkowy dla BMI_kat
+ggplot(waga, aes(x=BMI_kat))+
+    geom_bar()+
+    theme_classic()+
+    labs(x='Kateogria BMI', y='Liczba pacjentów')+
+  ggtitle('rozkład BMI')
+```
+```{r}
+ggplot(waga, aes(x=BMI_kat))+
+    geom_bar()+
+    theme_classic()+
+    labs(x='Kateogria BMI', y='Liczba pacjentów')+
+  ggtitle('rozkład BMI')+
+  geom_text(stat = 'count', aes(label =..count..), vjust=0.5) #dodanie liczby obserwacji
+```
+```{r}
+#zad7 tak jak 6, tylko dla osób ktore maja dlawice
+ggplot(waga %>% filter(Dlawica=='Tak'), aes(x=BMI_kat))+
+    geom_bar()+
+    theme_classic()+
+    labs(x='Kateogria BMI', y='Liczba pacjentów')+
+  ggtitle('rozkład BMI')+
+  geom_text(stat = 'count', aes(label =..count..), vjust=0.5) #dodanie liczby obserwacji
+
+```
+```{r}
+#zad 8 slupkowy nadcisnienie tylko dla tych co mają CRP <5,12>
+ggplot(waga %>%filter(between(CRP,5,12)), aes(x=Nadcisnienie))+
+    geom_bar()+
+    theme_classic()+
+    labs(x='Nadcisnienie', y='Liczba pacjentów')+
+  ggtitle('rozkład nadcisnienie')+
+  geom_text(stat = 'count', aes(label =..count..), vjust=0.5) #dodanie liczby obserwacji
+```
+```{r}
+#zad9 stworz histogram dla BMI
+wyk<-ggplot(waga, aes(x=BMI))+
+         geom_histogram(fill='blue', col='black',
+                        breaks=seq(16,34,2))+ #seq podaje ciągi, grupuje co 2
+       labs(x='Body mass index', y='Liczba pacjentów')+
+         ggtitle('ROzklad pacjentow ze wzgledu na BMI')+
+        theme_excel_new()
+ggsave('bmi.png',wyk, width=18,dpi=300,units='cm')
+```
+```{r}
+#zad10 stwórz boxplot dla zmiennej CRP w ramach kategorii BMI
+#Dodaj linię y=10
+ggplot(waga, aes(x=BMI_kat, y=CRP))+ geom_boxplot(col='blue')+labs(x='Kategorie BMI', y='Bialko C-reaktywne')+
+  ggtitle('ROzklad CRP wzgledem kategroii')+theme_bw()+
+  geom_hline(yintercept = 10, col='red')
+
+```
+```{r}
+#zad11 stwórz boxplot dla zmiennej crp w ramach kategorii BMI i nadcisnienia. DOdaj linie y=10
+ggplot(waga, aes(x=BMI_kat, y= CRP))+
+  geom_boxplot()+
+geom_hline(yintercept = 10, col='red')+
+  facet_wrap(~Nadcisnienie)+ #dzieli wzgledem kateogrii
+  labs(x="Kateogrie BMI", y="Bialko c reaktywne")+
+  coord_flip()+ # oś x jest pionowo a y poziomo
+  theme_excel_new()+
+  geom_jitter()
+
+
+```
+```{r}
+#zad12 stwórz wizualizacje macierzy korelacji między:
+# adiponektny, CRP, BMI, HDL, TG Cholestoreol i WIek
+zad12<-waga %>% select(Adiponektyna,CRP, BMI, HDL, TG, Cholesterol, Wiek)
+
+mac_kor <- round(cor(zad12, method = 'pearson'),2)
+print(mac_kor)
+ggcorrplot(mac_kor, method='circle', lab=TRUE, lab_size = 3, ggtheme = theme_bw(), title= 'Wspolczynnik korelacji Pearsona')
+```
+```{r}
+#wykresy na potrzeby prezentacji
+ggplot(waga, aes(x=BMI))+ geom_histogram(col='black', fill='blue', breaks=seq(15,35,5))+theme_bw()
+```
+```{r}
+ggsave('wykres1.png')
+```
+```{r}
+wyk2<- ggplot(waga,aes(x=Nadcisnienie))
+
+ggsave('wykres2.png')
+
+```
+```{r}
+waga %>%
+  group_by(BMI_kat) %>%
+  summarise(
+    sr = round(mean(CRP, na.rm = TRUE), 2),
+    Sx = round(mean(CRP, na.rm = TRUE), 2),  # This is currently a duplicate of `sr`
+    Q2 = round(median(CRP, na.rm = TRUE), 2)
+  ) %>%
+  xtable()
+
+```
+

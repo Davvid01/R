@@ -1,0 +1,2 @@
+"0","#wykresy na potrzeby prezentacji"
+"0","ggplot(waga, aes(x=BMI))+ geom_histogram(col='black', fill='blue', breaks=seq(15,35,5))+theme_bw()"

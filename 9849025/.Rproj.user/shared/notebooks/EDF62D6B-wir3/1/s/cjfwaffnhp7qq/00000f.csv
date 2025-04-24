@@ -1,0 +1,4 @@
+"0","#zadanie 3 KPS3"
+"0","zad3<- dane %>%  filter(dochg>2000)"
+"0","#zadanie4"
+"0","zad4 <- dane %>% filter(woj== '30' & klm==6 & dochg>3000)"

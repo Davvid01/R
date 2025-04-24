@@ -1,0 +1,8 @@
+"0","#zad7 tak jak 6, tylko dla osób ktore maja dlawice"
+"0","ggplot(waga %>% filter(Dlawica=='Tak'), aes(x=BMI_kat))+"
+"0","    geom_bar()+"
+"0","    theme_classic()+"
+"0","    labs(x='Kateogria BMI', y='Liczba pacjentów')+"
+"0","  ggtitle('rozkład BMI')+"
+"0","  geom_text(stat = 'count', aes(label =..count..), vjust=0.5) #dodanie liczby obserwacji"
+"0",""
